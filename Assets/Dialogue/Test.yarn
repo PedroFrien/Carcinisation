@@ -1,0 +1,24 @@
+title: Test
+tags: []
+position: -34.73040580749512,-39.224256455898285
+---
+Shut your trap diddyblud!
+-> Shut
+    Thank you diddyblud
+-> Do not Shut
+    <<jump BadResponse>>
+===
+
+title: BadResponse
+tags: []
+position: 217.8584442138672,-38.45420837402344
+---
+Die!!!!!
+-> Touch Him
+    Auuooogh
+-> Do Not
+    *kills you*
+    <<TestFunc>>
+===
+
+
