@@ -3971,7 +3971,7 @@ Transform:
   m_GameObject: {fileID: 843521522}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 183.54, y: -40.36, z: 111.75}
+  m_LocalPosition: {x: 183.54, y: -40.36, z: 112.74}
   m_LocalScale: {x: 0.5854464, y: 0.5854464, z: 0.5854464}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3990,6 +3990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestNPC
   dialogueRunner: {fileID: 1251315840}
+  gameManager: {fileID: 0}
   dialogueName: Test
 --- !u!1 &902558549
 GameObject:
