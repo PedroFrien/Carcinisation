@@ -20,10 +20,11 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     public Animator animator;
     public Transform playerPos;
     private Quaternion lookDir;
+    public bool talking = false;
 
     public virtual void Start()
     {
-        
+
         animator = GetComponent<Animator>();
         playerPos = FindFirstObjectByType<FPController>().transform;
 
@@ -60,18 +61,20 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
             transform.LookAt(playerPos);
             animator.SetBool("Talking", true);
-
+            talking = true;
         }
-        
+
     }
 
     public void ResetInteract()
     {
-        if (interactable == true) return; 
+        if (!talking) return; 
         
         Debug.Log("ResetInteract Called");
         interactable = true;
         animator.SetBool("Talking", false);
         transform.rotation = lookDir;
-    }
+
+        talking = false;
+}
 }
