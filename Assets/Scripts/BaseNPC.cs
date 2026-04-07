@@ -19,6 +19,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     public Animator animator;
     public Transform playerPos;
+    private Quaternion lookDir;
 
     public virtual void Start()
     {
@@ -33,12 +34,18 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         if (gameManager != null)
         {
             gameManager.endDialogue.AddListener(ResetInteract);
-            Debug.Log($"{gameObject.name} subscribed to endDialogue"); // confirm it's firing
         }
-        else
-        {
-            Debug.Log("GameManager not found!");
-        }
+
+        DialogueRunner runner = FindFirstObjectByType<DialogueRunner>();
+
+        AddYarnFunc();
+
+        lookDir = transform.rotation;
+
+    }
+
+    public virtual void AddYarnFunc()
+    {
 
     }
 
@@ -50,13 +57,21 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
             gameManager.SetDialogue(true);
             dialogueRunner.StartDialogue(dialogueName);
             interactable = false;
+
+            transform.LookAt(playerPos);
+            animator.SetBool("Talking", true);
+
         }
         
     }
 
     public void ResetInteract()
     {
+        if (interactable == true) return; 
+        
         Debug.Log("ResetInteract Called");
         interactable = true;
+        animator.SetBool("Talking", false);
+        transform.rotation = lookDir;
     }
 }
