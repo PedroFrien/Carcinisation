@@ -1,14 +1,22 @@
 using UnityEngine;
 using Yarn.Unity;
 
-public class TestNPC : NPCDialogue
+public class TestNPC : BaseNPC
 {
     public override void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
 
         DialogueRunner runner = FindFirstObjectByType<DialogueRunner>();
-        runner.AddCommandHandler("TestFunc", TestYarnFunc);
+
+        try
+        {
+            runner.AddCommandHandler("TestFunc", TestYarnFunc);
+        }
+        catch (System.ArgumentException)
+        {
+            // Already registered by another instance, skip
+        }
 
     }
 

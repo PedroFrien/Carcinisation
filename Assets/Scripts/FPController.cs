@@ -418,7 +418,8 @@ public class FPController : MonoBehaviour
 
         if (Physics.Raycast(fpCamera.transform.position, fpCamera.transform.forward, out hit, InteractDistance, pickup))
         {
-            if (hit.collider.GetComponent<IInteractable>() != null)
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null && interactable.Interactable == true)
             {
                 interactPopup.gameObject.SetActive(true);
                 

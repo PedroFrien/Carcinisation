@@ -11,6 +11,8 @@ public abstract class BaseItem : MonoBehaviour, IInteractable
 
     public bool equipped;
 
+    public bool Interactable { get; set; } = true;
+
 
     public virtual void Use()
     {
