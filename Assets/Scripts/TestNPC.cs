@@ -5,7 +5,15 @@ public class TestNPC : BaseNPC
 {
     public override void Start()
     {
+        if (animator != null) animator.SetBool("Idle", true);
+
         gameManager = FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.endDialogue.AddListener(ResetInteract);
+        }
+
 
         DialogueRunner runner = FindFirstObjectByType<DialogueRunner>();
 

@@ -17,16 +17,28 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     [SerializeField] private string dialogueName;
 
-    private Animator animator;
-    private Transform playerPos;
+    public Animator animator;
+    public Transform playerPos;
 
     public virtual void Start()
     {
-        gameManager = FindFirstObjectByType<GameManager>();
+        
         animator = GetComponent<Animator>();
         playerPos = FindFirstObjectByType<FPController>().transform;
 
-        if (animator != null) animator.SetBool("Idle", true); 
+        if (animator != null) animator.SetBool("Idle", true);
+
+        gameManager = FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.endDialogue.AddListener(ResetInteract);
+            Debug.Log($"{gameObject.name} subscribed to endDialogue"); // confirm it's firing
+        }
+        else
+        {
+            Debug.Log("GameManager not found!");
+        }
 
     }
 
@@ -40,5 +52,11 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
             interactable = false;
         }
         
+    }
+
+    public void ResetInteract()
+    {
+        Debug.Log("ResetInteract Called");
+        interactable = true;
     }
 }

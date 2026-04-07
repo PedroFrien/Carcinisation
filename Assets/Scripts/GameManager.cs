@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -16,8 +17,9 @@ public class GameManager : MonoBehaviour
 
     private Animator PMAnimator;
     private bool animActive;
+    public UnityEvent endDialogue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         if (pauseMenu != null)
         {
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
             SetMouseActive(false);
             SetPause(false);
             pauseMenu.SetActive(false);
+
+
+
         }
 
 
@@ -139,13 +144,16 @@ public class GameManager : MonoBehaviour
         inDialogue = start;
         if (start)
         {
+            Debug.Log("Starting Dialogue");
             SetMouseActive(true);
             SetPlayerMovement(false);
         }
         else
         {
+            Debug.Log("Ending Dialogue");
             SetMouseActive(false);
-            SetPlayerMovement(true);
+            SetPlayerMovement(true);        
+            endDialogue.Invoke();
         }
     }
 
