@@ -1,16 +1,121 @@
+using TMPro;
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
-public class ConversationManager : MonoBehaviour
+namespace Yarn.Unity
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class ConversationManager : MonoBehaviour
     {
-        
-    }
+        public string speakingNPC;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public BaseNPC currentSpeaker;
+
+        public Conversation currentConversation;
+
+        private PanCamera panCamera;
+
+        [SerializeField]private TextMeshProUGUI nameText;
+        private string _lastText;
+
+        private GameManager gameManager;
+
+        private DialogueRunner dialogueRunner;
+
+
+
+
+
+        private void Start()
+        {
+            dialogueRunner = FindFirstObjectByType<DialogueRunner>();
+
+            nameText = GameObject.Find("Character Name").GetComponent<TextMeshProUGUI>();
+
+
+            _lastText = nameText.text;
+            //nameText.OnPreRenderText += UpdateSpeaker;
+
+
+            panCamera = FindFirstObjectByType<PanCamera>();
+
+            gameManager = FindFirstObjectByType<GameManager>();
+            gameManager.endDialogue.AddListener(ResetConvo);
+
+
+            try
+            {
+                dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
+            }
+            catch (System.ArgumentException)
+            {
+                // Already registered by another instance, skip
+            }
+        }
+
+        public void PanTo(string npcName)
+        {
+ 
+            if (currentSpeaker != null)
+            {
+                currentSpeaker.SetTalking(false);
+                currentSpeaker = null;
+            }
+            
+
+            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            if (target != null) panCamera.PanTo(target.transform.position);
+
+            currentSpeaker = target;
+            currentSpeaker.SetTalking(true);
+            currentSpeaker.LookAtPlayer();
+        }
+
+        public void StartDialogue(Conversation conversation)
+        {
+            currentConversation = conversation;
+
+            dialogueRunner.StartDialogue(conversation.dialogueName);
+            gameManager.SetDialogue(true);
+
+            
+        }
+
+
+
+        //public void UpdateSpeaker(TMP_TextInfo textInfo)
+        //{
+        //    if (currentConversation == null) return;
+        //    speakingNPC = textInfo.textComponent.text;
+
+        //    foreach (BaseNPC npc in currentConversation.speakingNPCS)
+        //    {
+        //        string npcName = npc.name;
+        //        if (npcName == speakingNPC && npcName != currentSpeaker.name)
+        //        {
+        //            SetNewSpeaker(npc);
+        //        }
+        //    }
+        //}
+
+        //public void SetNewSpeaker(BaseNPC speaker)
+        //{
+        //    currentSpeaker = speaker;
+        //    panCamera.PanTo(speaker.transform.position);
+        //}
+
+        private void ResetConvo()
+        {
+            foreach (var npc in currentConversation.speakingNPCS)
+            {
+                npc.SetTalking(false);
+            }
+
+            currentConversation = null;
+            currentSpeaker = null;
+            speakingNPC = null;
+        }
+
+
     }
 }
+

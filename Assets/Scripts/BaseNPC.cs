@@ -1,7 +1,18 @@
+using CsvHelper.Configuration;
+using NUnit.Framework;
 using UnityEngine;
 using Yarn;
 using Yarn.Unity;
 
+
+using System.Collections.Generic;
+
+[System.Serializable]
+public class Conversation
+{
+    public List<BaseNPC> speakingNPCS;
+    public string dialogueName;
+}
 public abstract class BaseNPC : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable = true;
@@ -14,13 +25,16 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     [SerializeField] private DialogueRunner dialogueRunner;
     public GameManager gameManager;
+    public ConversationManager conversationManager;
 
-    [SerializeField] private string dialogueName;
+    public string speakingName;
 
+    public Conversation conversation;
     public Animator animator;
     public PanCamera pCamera;
     public Transform playerPos;
     private Quaternion lookDir;
+    public bool inConversation = false;
     public bool talking = false;
 
     public virtual void Start()
@@ -42,12 +56,13 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
             gameManager.endDialogue.AddListener(ResetInteract);
         }
 
-        DialogueRunner runner = FindFirstObjectByType<DialogueRunner>();
+        dialogueRunner = FindFirstObjectByType<DialogueRunner>();
 
         AddYarnFunc();
 
         lookDir = transform.rotation;
 
+        conversationManager = FindFirstObjectByType<ConversationManager>();
     }
 
     public virtual void AddYarnFunc()
@@ -55,20 +70,33 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     }
 
+    public void SetTalking(bool isTalking)
+    {
+        if (isTalking)
+        {
+            talking = true;
+            animator.SetBool("Talking", true);
+        }
+        else
+        {
+            talking = false;
+            animator.SetBool("Talking", false);
+        }
+    }
+
     public virtual void OnInteract()
     {
 
         if (dialogueRunner != null && interactable == true)
         {
-            gameManager.SetDialogue(true);
-            dialogueRunner.StartDialogue(dialogueName);
+            conversationManager.StartDialogue(conversation);
             interactable = false;
 
-            pCamera.PanTo(transform.position);
+            //pCamera.PanTo(transform.position);
 
-            transform.LookAt(playerPos);
-            animator.SetBool("Talking", true);
-            talking = true;
+            LookAt(playerPos.position);
+            //SetTalking(true);
+            inConversation = true;
             
         }
 
@@ -76,13 +104,29 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     public void ResetInteract()
     {
-        if (!talking) return; 
+        if (!inConversation) return; 
         
         Debug.Log("ResetInteract Called");
         interactable = true;
-        animator.SetBool("Talking", false);
-        transform.rotation = lookDir;
+        //SetTalking(false);
+        ResetLook();
 
-        talking = false;
-}
+        inConversation = false;
+        SetTalking(false);
+    }
+
+    public void LookAtPlayer()
+    {
+        LookAt(playerPos.position);
+    }
+
+    public void LookAt(Vector3 pos)
+    {
+        transform.LookAt(playerPos);
+    }
+
+    public void ResetLook()
+    {
+        transform.rotation = lookDir;
+    }
 }
