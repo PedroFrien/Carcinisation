@@ -18,6 +18,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     [SerializeField] private string dialogueName;
 
     public Animator animator;
+    public PanCamera pCamera;
     public Transform playerPos;
     private Quaternion lookDir;
     public bool talking = false;
@@ -26,7 +27,11 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     {
 
         animator = GetComponent<Animator>();
-        playerPos = FindFirstObjectByType<FPController>().transform;
+
+        FPController player = FindFirstObjectByType<FPController>();
+        playerPos = player.transform;
+        pCamera = player.GetComponent<PanCamera>();
+
 
         if (animator != null) animator.SetBool("Idle", true);
 
@@ -59,9 +64,12 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
             dialogueRunner.StartDialogue(dialogueName);
             interactable = false;
 
+            pCamera.PanTo(transform.position);
+
             transform.LookAt(playerPos);
             animator.SetBool("Talking", true);
             talking = true;
+            
         }
 
     }

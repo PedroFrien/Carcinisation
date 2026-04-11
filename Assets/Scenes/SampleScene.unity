@@ -176,6 +176,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   dialogueName: Test2
   animator: {fileID: 0}
+  pCamera: {fileID: 0}
   playerPos: {fileID: 0}
   talking: 0
 --- !u!95 &23240125
@@ -1098,6 +1099,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   dialogueName: Test
   animator: {fileID: 0}
+  pCamera: {fileID: 0}
   playerPos: {fileID: 0}
   talking: 0
 --- !u!65 &492659107
@@ -8386,6 +8388,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   dialogueName: Test3
   animator: {fileID: 0}
+  pCamera: {fileID: 0}
   playerPos: {fileID: 0}
   talking: 0
 --- !u!95 &1657141769
@@ -8620,7 +8623,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 420867137}
+  m_Mesh: {fileID: 199711410}
 --- !u!33 &2129284383
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -14141,6 +14144,7 @@ GameObject:
   - component: {fileID: 7447692342875560882}
   - component: {fileID: 3909015082113541310}
   - component: {fileID: 4700871094136040734}
+  - component: {fileID: 7447692342875560883}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -15130,6 +15134,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPPlayer
   FPController: {fileID: 1774764305697427718}
+--- !u!114 &7447692342875560883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969295823542678187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c35c10ac72b36f46b0f53a463c12d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanCamera
+  fpCamera: {fileID: 2564988593503904013}
+  panDuration: 1.5
+  panCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &7587003982154386180
 MonoBehaviour:
   m_ObjectHideFlags: 0
