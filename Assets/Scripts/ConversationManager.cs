@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using static Unity.Collections.Unicode;
+using System.Collections.Generic;
 
 namespace Yarn.Unity
 {
@@ -20,6 +21,8 @@ namespace Yarn.Unity
         private GameManager gameManager;
 
         private DialogueRunner dialogueRunner;
+
+        [SerializeField] private List<BaseNPC> npcs;
 
 
 
@@ -50,6 +53,10 @@ namespace Yarn.Unity
             {
                 // Already registered by another instance, skip
             }
+
+
+
+            npcs = new List<BaseNPC>(FindObjectsByType<BaseNPC>(FindObjectsSortMode.None));
         }
 
         public void PanTo(string npcName)
@@ -114,6 +121,25 @@ namespace Yarn.Unity
             currentSpeaker = null;
             speakingNPC = null;
         }
+
+        public void MoveNPC(string npcName, string posName)
+        {
+            BaseNPC targetNPC = null;
+            foreach (BaseNPC npc in npcs)
+            {
+                if (npc.speakingName == npcName)
+                {
+                    targetNPC = npc;
+                }
+            }
+
+            if (targetNPC != null)
+            {
+                targetNPC.MoveToPos(posName);
+            }
+        }
+
+
 
 
     }

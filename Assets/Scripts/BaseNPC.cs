@@ -1,11 +1,11 @@
 using CsvHelper.Configuration;
 using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Yarn;
 using Yarn.Unity;
-
-
-using System.Collections.Generic;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class Conversation
@@ -13,6 +13,15 @@ public class Conversation
     public List<BaseNPC> speakingNPCS;
     public string dialogueName;
 }
+
+[System.Serializable]
+public class MovementPos
+{
+    public string posName;
+    public Vector3 position;
+    public Quaternion endRot;
+}
+
 public abstract class BaseNPC : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable = true;
@@ -36,6 +45,11 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     private Quaternion lookDir;
     public bool inConversation = false;
     public bool talking = false;
+
+
+    private NavMeshAgent agent;
+
+    [SerializeField] public List<MovementPos> movementPositions;
 
     public virtual void Start()
     {
@@ -63,6 +77,9 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         lookDir = transform.rotation;
 
         conversationManager = FindFirstObjectByType<ConversationManager>();
+
+        agent =  GetComponent<NavMeshAgent>();
+        agent.SetDestination(transform.position);
     }
 
     public virtual void AddYarnFunc()
@@ -128,5 +145,29 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     public void ResetLook()
     {
         transform.rotation = lookDir;
+    }
+
+    public void MoveToPos(string posName)
+    {
+        MovementPos targetPos = null;
+        foreach (MovementPos pos in movementPositions)
+        {
+            if (pos.posName == posName)
+            {
+                targetPos = pos;
+            }
+        }
+
+        if (targetPos != null)
+        {
+            agent.SetDestination(targetPos.position);
+        }
+        else
+        {
+            Debug.Log("Couldn't find a pos from that string! You might've mispelled it");
+        }
+
+
+        
     }
 }

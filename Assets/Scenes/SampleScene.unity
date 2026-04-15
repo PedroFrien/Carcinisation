@@ -185,6 +185,7 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   inConversation: 0
   talking: 0
+  movementPositions: []
 --- !u!95 &23240125
 Animator:
   serializedVersion: 7
@@ -1279,6 +1280,10 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   inConversation: 0
   talking: 0
+  movementPositions:
+  - posName: 
+    position: {x: 0, y: 0, z: 0}
+    endRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!95 &488021193
 Animator:
   serializedVersion: 7
@@ -9341,6 +9346,7 @@ MonoBehaviour:
     speakingNPCS: []
     dialogueName: 
   nameText: {fileID: 0}
+  npcs: []
 --- !u!1 &1415311657
 GameObject:
   m_ObjectHideFlags: 0
@@ -9519,6 +9525,7 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   inConversation: 0
   talking: 0
+  movementPositions: []
 --- !u!95 &1657141769
 Animator:
   serializedVersion: 7
@@ -13683,7 +13690,7 @@ PrefabInstance:
       objectReference: {fileID: 860195680}
     - target: {fileID: 1492591389154259616, guid: 286f97b7ba240ad4c825895bfd8189ca, type: 3}
       propertyPath: m_VersionIndex
-      value: 2905
+      value: 2908
       objectReference: {fileID: 0}
     - target: {fileID: 2053094069703352572, guid: 286f97b7ba240ad4c825895bfd8189ca, type: 3}
       propertyPath: m_Mesh
@@ -18195,6 +18202,7 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   inConversation: 0
   talking: 0
+  movementPositions: []
 --- !u!222 &3771827307303231173
 CanvasRenderer:
   m_ObjectHideFlags: 0
