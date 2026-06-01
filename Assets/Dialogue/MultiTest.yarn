@@ -1,12 +1,13 @@
 ﻿title: MultiTest
 ---
-<<PanTo TestNPC4>>
+<<TalkToPlayer TestNPC4>>
 TestNPC4: Oh how delightful it is to idk have food with you this lovely day type shit
-<<PanTo TestNPC5>>
+<<TalkToPlayer TestNPC5>>
 TestNPC5: Yes it is so awesome and amazing
 -> Whats up guys
-    <<PanTo TestNPC4>>
+    <<TalkToPlayer TestNPC4>>
     TestNPC4: Dude do you mind
 -> Fuck you
     TestNPC5: Wow
+
 ===

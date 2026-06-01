@@ -4,6 +4,7 @@ using static Unity.Collections.Unicode;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
+using System;
 
 namespace Yarn.Unity
 {
@@ -11,24 +12,42 @@ namespace Yarn.Unity
     {
         public static ConversationManager Instance { get; private set; }
 
-        public string speakingNPC;
+        
 
-        public BaseNPC currentSpeaker;
+        
 
         public string currentConversation;
 
         private PanCamera panCamera;
 
-        [SerializeField]private TextMeshProUGUI nameText;
         private string _lastText;
 
         private GameManager gameManager;
 
         private DialogueRunner dialogueRunner;
 
-        [SerializeField] private List<BaseNPC> npcs;
+
+        [SerializeField] public List<BaseNPC> npcs;
+
+        [SerializeField] private TextMeshProUGUI nameText;
+        private BaseNPC currentSpeaker;
+        
+
+
+        
+        
+
+
+
+       
+
+
+        public bool inConversation = false;
+ 
 
         public bool conversationPaused = false;
+
+
 
 
 
@@ -43,8 +62,17 @@ namespace Yarn.Unity
             Instance = this;
         }
 
+        private void Update()
+        {
+            Debug.Log(currentSpeaker);
+        }
+
+
+
+
         private void Start()
         {
+
             dialogueRunner = FindFirstObjectByType<DialogueRunner>();
 
             nameText = GameObject.Find("Character Name").GetComponent<TextMeshProUGUI>();
@@ -72,6 +100,9 @@ namespace Yarn.Unity
 
             npcs = new List<BaseNPC>(FindObjectsByType<BaseNPC>(FindObjectsSortMode.None));
         }
+
+
+ 
 
 
         //public void PanTo(string npcName)
@@ -192,8 +223,13 @@ namespace Yarn.Unity
             //}
 
             currentConversation = null;
-            currentSpeaker = null;
-            speakingNPC = null;
+
+
+            foreach (BaseNPC npc in npcs)
+            {
+                npc.SetTalking(false);
+            }
+            //speakingNPC = null;
         }
   
 

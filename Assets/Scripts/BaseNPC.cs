@@ -54,6 +54,8 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     public bool moving = false;
 
 
+
+
     private NavMeshAgent agent;
 
     //[SerializeField] public List<MovementPos> movementPositions;
@@ -62,6 +64,10 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     {
         currentConversation = conversations[conversationIndex];
         animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.Log("no animator");
+        }
 
         FPController player = FindFirstObjectByType<FPController>();
         playerPos = player.transform;
@@ -79,7 +85,6 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
         dialogueRunner = FindFirstObjectByType<DialogueRunner>();
 
-        AddYarnFunc();
 
         lookDir = transform.rotation;
 
@@ -101,13 +106,12 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         }
     }
 
-    public virtual void AddYarnFunc()
-    {
 
-    }
 
+    [YarnCommand("SetTalking")]
     public void SetTalking(bool isTalking)
     {
+        animator = GetComponent<Animator>();
         if (isTalking)
         {
             talking = true;
@@ -116,9 +120,53 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         else
         {
             talking = false;
+            if (animator != null)
+            {
+                Debug.Log("aniamtor is assigned. W ragebait");
+            }
             animator.SetBool("Talking", false);
         }
     }
+
+    [YarnCommand("TalkToPlayer")]
+    public void TalkToPlayer()
+    {
+        foreach (BaseNPC npc in conversationManager.npcs)
+        {
+            npc.SetTalking(false);
+        }
+        PanTo();
+        SetTalking(true);
+        FacePlayer();
+    }
+
+    [YarnCommand("SetAnimation")]
+    public void SetAnimation(string animationName)
+    {
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(parameter.name, false);
+            }
+        }
+
+
+        animator.SetBool(animationName, true);
+    }
+
+    [YarnCommand("FacePlayer")]
+    public void FacePlayer()
+    {
+        LookAt(playerPos.position);
+    }
+
+    [YarnCommand("LookAt")]
+    public void LookAt(Vector3 pos)
+    {
+        transform.LookAt(pos);
+    }
+
 
     public virtual void OnInteract()
     {
@@ -151,15 +199,9 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         SetTalking(false);
     }
 
-    public void LookAtPlayer()
-    {
-        LookAt(playerPos.position);
-    }
+  
 
-    public void LookAt(Vector3 pos)
-    {
-        transform.LookAt(playerPos);
-    }
+    
 
     public void ResetLook()
     {
@@ -198,4 +240,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         conversationIndex++;
         currentConversation = conversations[conversationIndex];
     }
+
+    
+    
 }
