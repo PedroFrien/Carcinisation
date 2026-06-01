@@ -1,0 +1,17 @@
+﻿title: MovementTest
+---
+<<PanTo "MovementTestNPC">>
+<<SetCameraTarget "MovementTestNPC">>
+MovementTestNPC: Hi! Watch me move!
+
+<<MoveTo "MovementTestNPC" 193 -37 112>>
+// <<PauseConversation>>
+MovementTestNPC: Isn't that awesome?"
+-> Yeah Dude
+    MovementTestNPC: Yeahhhhh
+-> Hell no
+    MovementTestNPC: Aw man
+
+<<RemoveCameraTarget>>
+<<IncrementConversation "MovementTestNPC">>
+===

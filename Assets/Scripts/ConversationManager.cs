@@ -2,11 +2,15 @@ using TMPro;
 using UnityEngine;
 using static Unity.Collections.Unicode;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Collections;
 
 namespace Yarn.Unity
 {
     public class ConversationManager : MonoBehaviour
     {
+        public static ConversationManager Instance { get; private set; }
+
         public string speakingNPC;
 
         public BaseNPC currentSpeaker;
@@ -24,9 +28,20 @@ namespace Yarn.Unity
 
         [SerializeField] private List<BaseNPC> npcs;
 
+        public bool conversationPaused = false;
 
 
 
+        private void Awake()
+        {
+            // Enforce singleton
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -45,19 +60,19 @@ namespace Yarn.Unity
             gameManager.endDialogue.AddListener(ResetConvo);
 
 
-            try
-            {
-                dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
-            }
-            catch (System.ArgumentException)
-            {
-                // Already registered by another instance, skip
-            }
+            dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
+            dialogueRunner.AddCommandHandler("MoveTo", (string npcName, float x, float y, float z) => MoveTo(npcName, x, y, z));
+            dialogueRunner.AddCommandHandler("SetCameraTarget", (string npcName) => SetCameraTarget(npcName));
+            dialogueRunner.AddCommandHandler("RemoveCameraTarget", () => RemoveCameraTarget());
+            dialogueRunner.AddCommandHandler("PauseConversation", () => PauseConversation());
+            dialogueRunner.AddCommandHandler("ResumeConversation", () => ResumeConversation());
+            dialogueRunner.AddCommandHandler("IncrementConversation", (string npcName) => IncrementConversation(npcName));
 
 
 
             npcs = new List<BaseNPC>(FindObjectsByType<BaseNPC>(FindObjectsSortMode.None));
         }
+
 
         public void PanTo(string npcName)
         {
@@ -77,16 +92,75 @@ namespace Yarn.Unity
             currentSpeaker.LookAtPlayer();
         }
 
+
+        public IEnumerator MoveTo(string npcName, float x, float y, float z)
+        {
+            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            if (target != null)
+            {
+                target.MoveToPos(x, y, z);
+            }
+
+            while (target.moving)
+            {
+                yield return null;
+            }
+
+            ResumeConversation();
+        }
+
+
+        public void SetCameraTarget(string npcName)
+        {
+            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            if (target != null)
+            {
+                panCamera.SetTarget(target.transform);
+            }
+        }
+
+
+        public void RemoveCameraTarget()
+        {
+            panCamera.RemoveTarget();
+        }
+
+
         public void StartDialogue(Conversation conversation)
         {
             currentConversation = conversation;
 
             dialogueRunner.StartDialogue(conversation.dialogueName);
-            gameManager.SetDialogue(true);
-
-            
+            gameManager.SetDialogue(true);           
         }
 
+        public IEnumerator PauseConversation()
+        {
+            conversationPaused = true;
+
+            while (conversationPaused)
+            {
+                Debug.Log("Conversation Still Paused");
+                yield return null;
+            }
+
+            Debug.Log("Conversation has resumed");
+        }
+
+        public void ResumeConversation()
+        {
+            Debug.Log("Resuming Conversation");
+            conversationPaused = false;
+        }
+
+        public void IncrementConversation(string npcName)
+        {
+            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            if (target != null)
+            {
+                target.IncrementConversation();
+            }
+        }
 
 
         //public void UpdateSpeaker(TMP_TextInfo textInfo)
@@ -121,23 +195,8 @@ namespace Yarn.Unity
             currentSpeaker = null;
             speakingNPC = null;
         }
+  
 
-        public void MoveNPC(string npcName, string posName)
-        {
-            BaseNPC targetNPC = null;
-            foreach (BaseNPC npc in npcs)
-            {
-                if (npc.speakingName == npcName)
-                {
-                    targetNPC = npc;
-                }
-            }
-
-            if (targetNPC != null)
-            {
-                targetNPC.MoveToPos(posName);
-            }
-        }
 
 
 

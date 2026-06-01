@@ -1,6 +1,7 @@
 using CsvHelper.Configuration;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Yarn;
@@ -38,13 +39,18 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     public string speakingName;
 
-    public Conversation conversation;
+    public Conversation currentConversation;
+    public Conversation[] conversations;
+    public int conversationIndex = 0;
+
+
     public Animator animator;
     public PanCamera pCamera;
     public Transform playerPos;
     private Quaternion lookDir;
     public bool inConversation = false;
     public bool talking = false;
+    public bool moving = false;
 
 
     private NavMeshAgent agent;
@@ -53,7 +59,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     public virtual void Start()
     {
-
+        currentConversation = conversations[conversationIndex];
         animator = GetComponent<Animator>();
 
         FPController player = FindFirstObjectByType<FPController>();
@@ -82,6 +88,18 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         agent.SetDestination(transform.position);
     }
 
+    private void Update()
+    {
+        if (moving)
+        {
+            if (Vector3.Distance(transform.position, agent.destination) < 1f)
+            {
+                moving = false;
+                agent.SetDestination(transform.position);
+            }
+        }
+    }
+
     public virtual void AddYarnFunc()
     {
 
@@ -106,7 +124,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
         if (dialogueRunner != null && interactable == true)
         {
-            conversationManager.StartDialogue(conversation);
+            conversationManager.StartDialogue(currentConversation);
             interactable = false;
 
             //pCamera.PanTo(transform.position);
@@ -147,27 +165,17 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         transform.rotation = lookDir;
     }
 
-    public void MoveToPos(string posName)
+    public void MoveToPos(float x, float y, float z)
     {
-        MovementPos targetPos = null;
-        foreach (MovementPos pos in movementPositions)
-        {
-            if (pos.posName == posName)
-            {
-                targetPos = pos;
-            }
-        }
+        Vector3 movementPos = new Vector3(x, y, z);
 
-        if (targetPos != null)
-        {
-            agent.SetDestination(targetPos.position);
-        }
-        else
-        {
-            Debug.Log("Couldn't find a pos from that string! You might've mispelled it");
-        }
+        moving = true;
+        agent.SetDestination(movementPos);        
+    }
 
-
-        
+    public void IncrementConversation()
+    {
+        conversationIndex++;
+        currentConversation = conversations[conversationIndex];
     }
 }

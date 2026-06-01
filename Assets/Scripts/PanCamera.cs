@@ -9,8 +9,11 @@ public class PanCamera : MonoBehaviour
     [SerializeField] private AnimationCurve panCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     private Coroutine LookAtFunc;
 
+    private Transform cameraTarget;
+    private bool targetLocked = false;
+
     void Start() { }
-    void Update() { }
+  
 
     public void PanTo(Vector3 target)
     {
@@ -41,4 +44,26 @@ public class PanCamera : MonoBehaviour
         Vector3 finalDirection = target - fpCamera.transform.position;
         fpCamera.transform.rotation = Quaternion.LookRotation(finalDirection);
     }
+
+    public void SetTarget(Transform transform)
+    {
+        targetLocked = true;
+        cameraTarget = transform;
+    }
+
+    public void RemoveTarget()
+    {
+        targetLocked = false;
+        cameraTarget = null;
+    }
+
+    void Update() 
+    {
+        if(targetLocked && cameraTarget != null)
+        {
+            Vector3 finalDirection = cameraTarget.position - fpCamera.transform.position;
+            fpCamera.transform.rotation = Quaternion.LookRotation(finalDirection);
+        }      
+    }
+
 }
