@@ -158,12 +158,14 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     [YarnCommand("FacePlayer")]
     public void FacePlayer()
     {
-        LookAt(playerPos.position);
+        transform.LookAt(playerPos.position);
     }
 
     [YarnCommand("LookAt")]
-    public void LookAt(Vector3 pos)
+    public void LookAt(float x, float y, float z)
     {
+        Vector3 pos = new Vector3(x, y, z);
+
         transform.LookAt(pos);
     }
 
@@ -178,7 +180,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
             //pCamera.PanTo(transform.position);
 
-            LookAt(playerPos.position);
+            FacePlayer();
             //SetTalking(true);
             inConversation = true;
             
@@ -228,6 +230,16 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         pCamera.PanTo(transform.position);
     }
 
+    [YarnCommand("TeleportTo")]
+    public void TeleportTo(float x, float y, float z)
+    {
+        agent.enabled = false;
+        Vector3 movementPos = new Vector3(x, y, z);
+
+        transform.position = movementPos;
+        agent.enabled = true;
+    }
+
     [YarnCommand("SetCameraTarget")]
     public void SetCameraTarget()
     {
@@ -237,8 +249,24 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     [YarnCommand("IncrementConversation")]
     public void IncrementConversation()
     {
-        conversationIndex++;
-        currentConversation = conversations[conversationIndex];
+        if (conversations.Length > conversationIndex - 1)
+        {
+            conversationIndex++;
+            currentConversation = conversations[conversationIndex];
+        }
+        
+    }
+
+    [YarnCommand("SetConversationIndex")]
+    public void SetConversationIndex(int index)
+    {
+        if (conversations.Length > index - 1)
+        {
+            conversationIndex = index;
+            currentConversation = conversations[conversationIndex];
+        }
+        
+            
     }
 
     

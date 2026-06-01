@@ -7,11 +7,21 @@ MovementTestNPC: Hi! Watch me move!
 <<MoveTo MovementTestNPC 193 -37 112>>
 // <<PauseConversation>>
 <<TalkToPlayer MovementTestNPC>>
+<<RemoveCameraTarget>>
 MovementTestNPC: Isn't that awesome?"
 -> Yeah Dude
     MovementTestNPC: Yeahhhhh
+    <<TeleportTo MovementTestNPC2 195 -40.35 101>>
+    <<TalkToPlayer MovementTestNPC2>>
+    MovementTestNPC2: I agree
+    <<SetConversationIndex MovementTestNPC2 1>>
+    
 -> Hell no
     MovementTestNPC: Aw man
+    <<TeleportTo MovementTestNPC2 195 -40.35 101>>
+    <<TalkToPlayer MovementTestNPC2>>
+    MovementTestNPC2: Dude why did you say that to him
+    <<SetConversationIndex MovementTestNPC2 2>>
 
 <<RemoveCameraTarget>>
 <<IncrementConversation MovementTestNPC>>

@@ -1,0 +1,15 @@
+﻿title: MovementTest3
+---
+<<TalkToPlayer MovementTestNPC2>>
+MovementTestNPC2: God he's so cool
+MovementTestNPC2: I wonder if he'll give me an autograph
+<<SetCameraTarget MovementTestNPC2>>
+<<MoveTo MovementTestNPC2 194 -37 112>>
+<<LookAt MovementTestNPC2 193 -37 112>>
+<<SetTalking MovementTestNPC2 true>>
+MovementTestNPC2: Can I get your autograph
+<<LookAt MovementTestNPC 194 -37 112>>
+MovementTestNPC: Yeah dude
+<<SetConversationIndex MovementTestNPC2 3>>
+<<RemoveCameraTarget>>
+===

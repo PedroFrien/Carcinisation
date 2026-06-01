@@ -29,6 +29,16 @@ public class PanCamera : MonoBehaviour
         Vector3 direction = target - fpCamera.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
+        if (Quaternion.Dot(startRotation, targetRotation) < 0f)
+        {
+            targetRotation = new Quaternion(
+                -targetRotation.x,
+                -targetRotation.y,
+                -targetRotation.z,
+                -targetRotation.w
+            );
+        }
+
         while (elapsed < panDuration)
         {
             elapsed += Time.deltaTime;
