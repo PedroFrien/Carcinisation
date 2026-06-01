@@ -1,5 +1,6 @@
 using CsvHelper.Configuration;
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,20 +9,20 @@ using Yarn;
 using Yarn.Unity;
 using static UnityEditor.PlayerSettings;
 
-[System.Serializable]
-public class Conversation
-{
-    public List<BaseNPC> speakingNPCS;
-    public string dialogueName;
-}
+//[System.Serializable]
+//public class Conversation
+//{
+//    public List<BaseNPC> speakingNPCS;
+//    public string dialogueName;
+//}
 
-[System.Serializable]
-public class MovementPos
-{
-    public string posName;
-    public Vector3 position;
-    public Quaternion endRot;
-}
+//[System.Serializable]
+//public class MovementPos
+//{
+//    public string posName;
+//    public Vector3 position;
+//    public Quaternion endRot;
+//}
 
 public abstract class BaseNPC : MonoBehaviour, IInteractable
 {
@@ -39,8 +40,8 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     public string speakingName;
 
-    public Conversation currentConversation;
-    public Conversation[] conversations;
+    public string currentConversation;
+    public string[] conversations;
     public int conversationIndex = 0;
 
 
@@ -55,7 +56,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
 
     private NavMeshAgent agent;
 
-    [SerializeField] public List<MovementPos> movementPositions;
+    //[SerializeField] public List<MovementPos> movementPositions;
 
     public virtual void Start()
     {
@@ -165,14 +166,33 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         transform.rotation = lookDir;
     }
 
-    public void MoveToPos(float x, float y, float z)
+    [YarnCommand("MoveTo")]
+    public IEnumerator MoveTo(float x, float y, float z)
     {
         Vector3 movementPos = new Vector3(x, y, z);
 
         moving = true;
-        agent.SetDestination(movementPos);        
+        agent.SetDestination(movementPos);   
+        
+        while (moving)
+        {
+            yield return null;
+        }
     }
 
+    [YarnCommand("PanTo")]
+    public void PanTo()
+    {
+        pCamera.PanTo(transform.position);
+    }
+
+    [YarnCommand("SetCameraTarget")]
+    public void SetCameraTarget()
+    {
+        pCamera.SetTarget(transform);
+    }
+
+    [YarnCommand("IncrementConversation")]
     public void IncrementConversation()
     {
         conversationIndex++;

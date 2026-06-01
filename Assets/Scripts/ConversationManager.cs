@@ -15,7 +15,7 @@ namespace Yarn.Unity
 
         public BaseNPC currentSpeaker;
 
-        public Conversation currentConversation;
+        public string currentConversation;
 
         private PanCamera panCamera;
 
@@ -60,13 +60,13 @@ namespace Yarn.Unity
             gameManager.endDialogue.AddListener(ResetConvo);
 
 
-            dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
-            dialogueRunner.AddCommandHandler("MoveTo", (string npcName, float x, float y, float z) => MoveTo(npcName, x, y, z));
-            dialogueRunner.AddCommandHandler("SetCameraTarget", (string npcName) => SetCameraTarget(npcName));
+            //dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
+            //dialogueRunner.AddCommandHandler("MoveTo", (string npcName, float x, float y, float z) => MoveTo(npcName, x, y, z));
+            //dialogueRunner.AddCommandHandler("SetCameraTarget", (string npcName) => SetCameraTarget(npcName));
             dialogueRunner.AddCommandHandler("RemoveCameraTarget", () => RemoveCameraTarget());
             dialogueRunner.AddCommandHandler("PauseConversation", () => PauseConversation());
             dialogueRunner.AddCommandHandler("ResumeConversation", () => ResumeConversation());
-            dialogueRunner.AddCommandHandler("IncrementConversation", (string npcName) => IncrementConversation(npcName));
+            //dialogueRunner.AddCommandHandler("IncrementConversation", (string npcName) => IncrementConversation(npcName));
 
 
 
@@ -74,50 +74,50 @@ namespace Yarn.Unity
         }
 
 
-        public void PanTo(string npcName)
-        {
+        //public void PanTo(string npcName)
+        //{
  
-            if (currentSpeaker != null)
-            {
-                currentSpeaker.SetTalking(false);
-                currentSpeaker = null;
-            }
+        //    if (currentSpeaker != null)
+        //    {
+        //        currentSpeaker.SetTalking(false);
+        //        currentSpeaker = null;
+        //    }
             
 
-            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-            if (target != null) panCamera.PanTo(target.transform.position);
+        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+        //    if (target != null) panCamera.PanTo(target.transform.position);
 
-            currentSpeaker = target;
-            currentSpeaker.SetTalking(true);
-            currentSpeaker.LookAtPlayer();
-        }
-
-
-        public IEnumerator MoveTo(string npcName, float x, float y, float z)
-        {
-            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-            if (target != null)
-            {
-                target.MoveToPos(x, y, z);
-            }
-
-            while (target.moving)
-            {
-                yield return null;
-            }
-
-            ResumeConversation();
-        }
+        //    currentSpeaker = target;
+        //    currentSpeaker.SetTalking(true);
+        //    currentSpeaker.LookAtPlayer();
+        //}
 
 
-        public void SetCameraTarget(string npcName)
-        {
-            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-            if (target != null)
-            {
-                panCamera.SetTarget(target.transform);
-            }
-        }
+        //public IEnumerator MoveTo(string npcName, float x, float y, float z)
+        //{
+        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+        //    if (target != null)
+        //    {
+        //        target.MoveToPos(x, y, z);
+        //    }
+
+        //    while (target.moving)
+        //    {
+        //        yield return null;
+        //    }
+
+        //    ResumeConversation();
+        //}
+
+
+        //public void SetCameraTarget(string npcName)
+        //{
+        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+        //    if (target != null)
+        //    {
+        //        panCamera.SetTarget(target.transform);
+        //    }
+        //}
 
 
         public void RemoveCameraTarget()
@@ -126,11 +126,11 @@ namespace Yarn.Unity
         }
 
 
-        public void StartDialogue(Conversation conversation)
+        public void StartDialogue(string conversation)
         {
             currentConversation = conversation;
 
-            dialogueRunner.StartDialogue(conversation.dialogueName);
+            dialogueRunner.StartDialogue(conversation);
             gameManager.SetDialogue(true);           
         }
 
@@ -153,14 +153,14 @@ namespace Yarn.Unity
             conversationPaused = false;
         }
 
-        public void IncrementConversation(string npcName)
-        {
-            var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-            if (target != null)
-            {
-                target.IncrementConversation();
-            }
-        }
+        //public void IncrementConversation(string npcName)
+        //{
+        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+        //    if (target != null)
+        //    {
+        //        target.IncrementConversation();
+        //    }
+        //}
 
 
         //public void UpdateSpeaker(TMP_TextInfo textInfo)
@@ -186,10 +186,10 @@ namespace Yarn.Unity
 
         private void ResetConvo()
         {
-            foreach (var npc in currentConversation.speakingNPCS)
-            {
-                npc.SetTalking(false);
-            }
+            //foreach (var npc in currentConversation.speakingNPCS)
+            //{
+            //    npc.SetTalking(false);
+            //}
 
             currentConversation = null;
             currentSpeaker = null;
