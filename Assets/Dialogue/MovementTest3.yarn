@@ -11,5 +11,6 @@ MovementTestNPC2: Can I get your autograph
 <<LookAt MovementTestNPC 194 -37 112>>
 MovementTestNPC: Yeah dude
 <<SetConversationIndex MovementTestNPC2 3>>
+<<SetConversationIndex MovementTestNPC 3>>
 <<RemoveCameraTarget>>
 ===

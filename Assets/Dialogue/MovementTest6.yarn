@@ -1,0 +1,9 @@
+﻿title: MovementTest6
+---
+<<TalkToPlayer MovementTestNPC>>
+MovementTestNPC: How FUCKING dare you
+MovementTestNPC: Im outta here
+<<TeleportTo MovementTestNPC 900 900 900>>
+<<SetConversationIndex MovementTestNPC2 4>>
+
+===

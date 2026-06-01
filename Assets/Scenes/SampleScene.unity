@@ -4349,6 +4349,8 @@ MonoBehaviour:
   conversations:
   - MovementTest
   - MovementTest2
+  - MovementTest6
+  - MovementTest7
   conversationIndex: 0
   animator: {fileID: 0}
   pCamera: {fileID: 0}
@@ -16297,6 +16299,7 @@ MonoBehaviour:
   - MovementTest3
   - MovementTest4
   - MovementTest5
+  - MovementTest8
   conversationIndex: 0
   animator: {fileID: 0}
   pCamera: {fileID: 0}

@@ -249,7 +249,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     [YarnCommand("IncrementConversation")]
     public void IncrementConversation()
     {
-        if (conversations.Length > conversationIndex - 1)
+        if (conversations.Length > conversationIndex)
         {
             conversationIndex++;
             currentConversation = conversations[conversationIndex];
@@ -260,7 +260,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     [YarnCommand("SetConversationIndex")]
     public void SetConversationIndex(int index)
     {
-        if (conversations.Length > index - 1)
+        if (conversations.Length > index)
         {
             conversationIndex = index;
             currentConversation = conversations[conversationIndex];

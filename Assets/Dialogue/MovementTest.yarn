@@ -15,6 +15,7 @@ MovementTestNPC: Isn't that awesome?"
     <<TalkToPlayer MovementTestNPC2>>
     MovementTestNPC2: I agree
     <<SetConversationIndex MovementTestNPC2 1>>
+    <<IncrementConversation MovementTestNPC>>
     
 -> Hell no
     MovementTestNPC: Aw man
@@ -22,7 +23,8 @@ MovementTestNPC: Isn't that awesome?"
     <<TalkToPlayer MovementTestNPC2>>
     MovementTestNPC2: Dude why did you say that to him
     <<SetConversationIndex MovementTestNPC2 2>>
+    <<SetConversationIndex MovementTestNPC 2>>
 
 <<RemoveCameraTarget>>
-<<IncrementConversation MovementTestNPC>>
+
 ===
