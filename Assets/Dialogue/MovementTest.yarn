@@ -6,6 +6,7 @@ MovementTestNPC: Hi! Watch me move!
 
 <<MoveTo "MovementTestNPC" 193 -37 112>>
 // <<PauseConversation>>
+<<PanTo "MovementTestNPC">>
 MovementTestNPC: Isn't that awesome?"
 -> Yeah Dude
     MovementTestNPC: Yeahhhhh
