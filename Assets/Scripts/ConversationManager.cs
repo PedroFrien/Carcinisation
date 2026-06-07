@@ -107,6 +107,7 @@ namespace Yarn.Unity
 
         public void PanToLocation(float x, float y, float z)
         {
+            Debug.Log("Trying to pan to location");
             Vector3 location = new Vector3(x, y, z);
 
             panCamera.PanTo(location);
