@@ -1,0 +1,18 @@
+﻿title: TestScene_CaptainIntro
+---
+<<PanToLocation 183.59, 2.45, -73.29>>
+<<wait 3>>
+<<PanToLocation 183.59, 2.45, -34.33>>
+<<wait 3>>
+Captain: Whats up dawg
+<<TalkToPlayer Captain>>
+-> Hi
+    Captain: Sup
+
+-> Ahoy
+    Captain: Thats the spirit
+
+Captain: Follow me lad
+<<MoveToPos Captain 226 1.621 -65.38>>
+
+===

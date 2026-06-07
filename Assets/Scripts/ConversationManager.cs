@@ -88,7 +88,7 @@ namespace Yarn.Unity
             gameManager.endDialogue.AddListener(ResetConvo);
 
 
-            //dialogueRunner.AddCommandHandler("PanTo", (string npcName) => PanTo(npcName));
+            dialogueRunner.AddCommandHandler("PanToLocation", (float x, float y, float z) => PanToLocation(x, y, z));
             //dialogueRunner.AddCommandHandler("MoveTo", (string npcName, float x, float y, float z) => MoveTo(npcName, x, y, z));
             //dialogueRunner.AddCommandHandler("SetCameraTarget", (string npcName) => SetCameraTarget(npcName));
             dialogueRunner.AddCommandHandler("RemoveCameraTarget", () => RemoveCameraTarget());
@@ -102,53 +102,51 @@ namespace Yarn.Unity
         }
 
 
- 
 
 
-        //public void PanTo(string npcName)
-        //{
- 
-        //    if (currentSpeaker != null)
-        //    {
-        //        currentSpeaker.SetTalking(false);
-        //        currentSpeaker = null;
-        //    }
-            
+
+        public void PanToLocation(float x, float y, float z)
+        {
+            Vector3 location = new Vector3(x, y, z);
+
+            panCamera.PanTo(location);
+        }
+
 
         //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
         //    if (target != null) panCamera.PanTo(target.transform.position);
 
-        //    currentSpeaker = target;
-        //    currentSpeaker.SetTalking(true);
-        //    currentSpeaker.LookAtPlayer();
-        //}
+            //    currentSpeaker = target;
+            //    currentSpeaker.SetTalking(true);
+            //    currentSpeaker.LookAtPlayer();
+            //}
 
 
-        //public IEnumerator MoveTo(string npcName, float x, float y, float z)
-        //{
-        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-        //    if (target != null)
-        //    {
-        //        target.MoveToPos(x, y, z);
-        //    }
+            //public IEnumerator MoveTo(string npcName, float x, float y, float z)
+            //{
+            //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            //    if (target != null)
+            //    {
+            //        target.MoveToPos(x, y, z);
+            //    }
 
-        //    while (target.moving)
-        //    {
-        //        yield return null;
-        //    }
+            //    while (target.moving)
+            //    {
+            //        yield return null;
+            //    }
 
-        //    ResumeConversation();
-        //}
+            //    ResumeConversation();
+            //}
 
 
-        //public void SetCameraTarget(string npcName)
-        //{
-        //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
-        //    if (target != null)
-        //    {
-        //        panCamera.SetTarget(target.transform);
-        //    }
-        //}
+            //public void SetCameraTarget(string npcName)
+            //{
+            //    var target = currentConversation.speakingNPCS.Find(n => n.speakingName == npcName);
+            //    if (target != null)
+            //    {
+            //        panCamera.SetTarget(target.transform);
+            //    }
+            //}
 
 
         public void RemoveCameraTarget()
