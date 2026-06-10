@@ -2652,7 +2652,7 @@ Transform:
   m_GameObject: {fileID: 220992175}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -109, y: -106, z: -13}
+  m_LocalPosition: {x: -109, y: -130, z: -13}
   m_LocalScale: {x: -0.08264097, y: -0.08264097, z: -0.08264097}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12805,7 +12805,7 @@ MonoBehaviour:
   dialogueRunner: {fileID: 1251315840}
   gameManager: {fileID: 0}
   conversationManager: {fileID: 0}
-  speakingName: MovementTestNPC
+  speakingName: MovementTestNPC2
   currentConversation: 
   conversations:
   - MovementTest
@@ -23666,9 +23666,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1356551326}
     - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: speakingName
+      value: MovementTestNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
       propertyPath: dialogueRunner
       value: 
       objectReference: {fileID: 1251315840}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: conversations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: 'conversations.Array.data[0]'
+      value: MovementTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: 'conversations.Array.data[1]'
+      value: MovementTest2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: 'conversations.Array.data[2]'
+      value: MovementTest6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: 'conversations.Array.data[3]'
+      value: MovementTest7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920429466392829184, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
+      propertyPath: 'conversations.Array.data[4]'
+      value: MovementTest9
+      objectReference: {fileID: 0}
     - target: {fileID: 5222124222093082366, guid: ac48f42151060004bb6eca42b1c9786c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 195.07
